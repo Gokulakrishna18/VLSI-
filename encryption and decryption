@@ -1,0 +1,51 @@
+// Verilog Code
+module caesar_cipher(
+    input [7:0] plaintext,
+    input [7:0] key,
+    output reg [7:0] ciphertext
+);
+
+// Encryption algorithm
+always @ (*) begin
+    ciphertext = plaintext ^ key; //Simple Caesar cipher encryption
+end
+
+endmodule
+
+//Test Bench Code
+module testbench();
+
+reg [7:0] plaintext;
+reg [7:0] key;
+wire [7:0] ciphertext;
+
+// Instantiate the Caesar cipher module
+caesar_cipher encryptor(
+    .plaintext(plaintext),
+    .key(key),
+    .ciphertext(ciphertext)
+);
+
+// Stimulus
+initial begin
+    plaintext =4'd12 ; // Example plaintext
+    key = 4'd04; // Example key
+    #20; // Wait for a few time units
+    
+    // Insert more test cases here
+    
+    $finish;
+end
+
+// Monitor
+always @(ciphertext) begin
+  $display("Plaintext: %d, Key: %d, Ciphertext: %d", plaintext, key, ciphertext);
+end
+  
+initial begin
+   $dumpfile("dump.vcd");
+   $dumpvars();
+ end
+
+
+endmodule
